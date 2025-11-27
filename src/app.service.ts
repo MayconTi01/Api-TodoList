@@ -6,3 +6,14 @@ export class AppService {
     return 'Hello World!';
   }
 }
+
+
+Criar usuário
+
+
+
+Buscar usuário por email
+
+Atualizar perfil
+
+Atualizar senha

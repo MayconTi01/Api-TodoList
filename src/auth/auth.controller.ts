@@ -19,6 +19,7 @@ export class AuthController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log('Fetching auth with id:', id);
     return this.authService.findOne(+id);
   }
 
