@@ -50,7 +50,7 @@ findAll(): Tarefa[] {
 // Receber o id da tarefa
 findOne(id: Tarefa["id"]): Tarefa | null {
   const tarefa = this.tarefasLista.find(tarefa => tarefa.id === id);
-  if (!tarefa) return null;
+  if (!tarefa) return {} as any;
   return tarefa;
 }
 
@@ -59,7 +59,7 @@ findOne(id: Tarefa["id"]): Tarefa | null {
 update(id:Tarefa["id"], atualizaTarefa: UpdateTarefaDto): Tarefa | undefined { 
   const tarefa = this.tarefasLista.find(tarefas => tarefas.id === id);
 
-  
+  if (!tarefa) return {} as any;
   if(atualizaTarefa.titulo !== undefined){
     tarefa!.titulo = atualizaTarefa.titulo;
   }
