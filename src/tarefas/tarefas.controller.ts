@@ -18,42 +18,35 @@ import { UpdateTarefaDto } from './dto/update-tarefa.dto';
 export class TarefasController {
     constructor(private readonly tarefasService: TarefasService) {} 
 
-// Criar tarefa
+//================ Criar tarefa ================
 @Post()
 async create(@Body() NovaTarefa: CriarTarefaDto) { 
     return this.tarefasService.create(NovaTarefa);
 }
-// Listar tarefas
-
+//==================Listar todas as Tarefas =================
 @Get() // rota metodo Get 
 async findAll(){   // metodo fildAll - lista todas as tarefas 
     return this.tarefasService.findAll(); // chama o service para listar todas as tarefas
 }  
-// Editar tarefa
-
-//liestar por id 
-
+// ======================= Listar tarefa por id  ========================
 @Get(':id')
 async findOne(@Param('id')id:string){ 
   return this.tarefasService.findOne(+id)
 }
 
-
+//========================= Editar tarefa ==========================
 @Patch(':id') // 1: metodo HTTP, 2: rota com parametro dinamico 
 async update(@Param('id') id: string, @Body() dadosAtualizados: UpdateTarefaDto) {
+    return this.tarefasService.update(+id, dadosAtualizados);
 } 
 
-
-
-// }  
-
-// // Excluir tarefa
-// @Delete(':id')
-// async remove(@Param('id') id: string) { 
-//     return this.tarefasService.remove(+id);
+// ================================ Excluir tarefa ========================
+@Delete(':id')
+remove(@Param('id') id: string) {
+    return this.tarefasService.remove(+id); 
 }
 
-
+} 
 
 // Marcar como concluída
 

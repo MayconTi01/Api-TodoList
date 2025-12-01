@@ -3,6 +3,8 @@ import { CriarTarefaDto} from './dto/create-tarefa.dto';
 import { UpdateTarefaDto } from './dto/update-tarefa.dto';
 import { treemap } from 'mermaid/dist/diagrams/treemap/detector.js';
 
+
+//============ Definição do tipo Tarefa =============
 type Tarefa = {
   id: number;
   titulo: string;
@@ -10,14 +12,14 @@ type Tarefa = {
   concluida: boolean;
   criadoEm: Date;
 }
+//============ Fim da definição do tipo Tarefa =============
 @Injectable()
 export class TarefasService {
   private tarefasLista: Tarefa[] = [] ;
   private contadorId: number = 1;
 
-//Criar tarefa
-//“Pegar dados → montar objeto da tarefa → armazenar → retornar”.
-//1 Receber o CriarTarefaDto com título e descrição.
+//================ Criar tarefa ===============  
+
 create(NovaTarefa:CriarTarefaDto): Tarefa[] { 
 
   const tarefa: Tarefa = { 
@@ -32,6 +34,8 @@ create(NovaTarefa:CriarTarefaDto): Tarefa[] {
 
   return this.tarefasLista   
 }
+
+//=============== Listar Tarefas ============
 // Listar todas as tarefas 
 // retornar todas as tarefas já criadas
 // sem alterar nada
@@ -41,6 +45,7 @@ findAll(): Tarefa[] {
   return this.tarefasLista; 
 }
 
+//============= Listar tarefa pro ID  ===========
 //listar tarefas por id
 // Receber o id da tarefa
 findOne(id: Tarefa["id"]): Tarefa | null {
@@ -49,19 +54,47 @@ findOne(id: Tarefa["id"]): Tarefa | null {
   return tarefa;
 }
 
+
+//================ Editar Tarefa ============
 update(id:Tarefa["id"], atualizaTarefa: UpdateTarefaDto): Tarefa | undefined { 
   const tarefa = this.tarefasLista.find(tarefas => tarefas.id === id);
-  
-  if (tarefa?.titulo) {
-    tarefa.titulo = atualizaTarefa.titulo!
-  } 
 
-  if (tarefa?.descricao) {
-    tarefa.descricao = atualizaTarefa.descricao!
+  
+  if(atualizaTarefa.titulo !== undefined){
+    tarefa!.titulo = atualizaTarefa.titulo;
   }
 
-  return tarefa
+  if(atualizaTarefa.descricao !== undefined){
+    tarefa!.descricao = atualizaTarefa.descricao;
+  }
+
+  return tarefa;
 }
+
+// ================ Excluir Tarefa ===========
+
+//Receber o ID
+remove(id: Tarefa["id"]) {
+  const tarefa = this.tarefasLista;
+  const index = this.tarefasLista.findIndex(tarefa => tarefa.id === id); 
+  if(index !== -1 ){ 
+    const tarefaRemovida = this.tarefasLista.splice(index, 1)[0]
+    return tarefa;
+  //return console.log(`Sua tarefa foi removida:${tarefaRemovida}`); 
+  }else { 
+    return undefined;
+  }
+}   
+} 
+// Procurar dentro da lista se a tarefa existe
+
+// Se não existir → retornar undefined ou erro
+
+// Se existir → remover da lista
+
+// Retornar algo (ex.: a tarefa removida, ou mensagem)
+
+
 
 
 //✔ 1. Receber o ID da tarefa
@@ -113,4 +146,4 @@ update(id:Tarefa["id"], atualizaTarefa: UpdateTarefaDto): Tarefa | undefined {
 //     return `This action removes a #${id} tarefa`;
 //   }
 // 
-}
+
