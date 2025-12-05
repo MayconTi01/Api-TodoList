@@ -2,21 +2,30 @@ import { Injectable } from '@nestjs/common';
 import { CriarTarefaDto} from './dto/create-tarefa.dto';
 import { UpdateTarefaDto } from './dto/update-tarefa.dto';
 import { treemap } from 'mermaid/dist/diagrams/treemap/detector.js';
-
+import { InjectRepository } from '@nestjs/typeorm';
+import { Tarefa } from './entities/tarefa.entity'; 
+import { Repository } from 'typeorm';
 
 //============ Definição do tipo Tarefa =============
-type Tarefa = {
-  id: number;
-  titulo: string;
-  descricao: string;
-  concluida: boolean;
-  criadoEm: Date;
-}
-//============ Fim da definição do tipo Tarefa =============
+
+
+
+// type Tarefa = {
+//   id: number;
+//   titulo: string;
+//   descricao: string;
+//   concluida: boolean;
+//   criadoEm: Date;
+// }
+// //============ Fim da definição do tipo Tarefa =============
+
 @Injectable()
-export class TarefasService {
-  private tarefasLista: Tarefa[] = [] ;
-  private contadorId: number = 1;
+  export class TarefasService {
+    @InjectRepository(Tarefa)
+    private tarefaRepository: Repository<Tarefa>;  
+  } 
+//   private tarefasLista: Tarefa[] = [] ;
+//   private contadorId: number = 1;
 
 //================ Criar tarefa ===============  
 

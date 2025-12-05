@@ -5,7 +5,7 @@ import { TarefasService } from './tarefas.service';
 import { TarefasController } from './tarefas.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Tarefa])],
+  imports: [TypeOrmModule.forFeature([Tarefa])], // registra a entidade Tarefa no modulo de tarefas 
   controllers: [TarefasController],
   providers: [TarefasService],
 })
