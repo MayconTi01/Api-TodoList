@@ -2,45 +2,45 @@ import { Injectable } from '@nestjs/common';
 import { CadastroUsuarioAuthDto } from './dto/create-auth.dto';
 import {LoginAuthDto } from './dto/login-auth.dto'; 
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import {Repository} from 'typeorm';
+import {InjectRepository} from '@nestjs/typeorm';
+import {User} from '../users/entities/user.entity'; 
 
-
-
-type User ={ 
-  id: number; 
-  username: string; 
-  senha: string; 
-  email: string; 
-}
-
-
+// type User ={ 
+//   id: number; 
+//   username: string; 
+//   senha: string; 
+//   email: string; 
+// }
 
 @Injectable()
-
-
-
-export class AuthService { 
+  export class AuthService { 
+    @InjectRepository(User)
+    private userRepository: Repository<User>; 
+  } 
   //============= Cadastro de usuario =============
 //logica 
 // Receber DTO
-create( cadastro: CadastroUsuarioAuthDto): {
-  const user: User =
 
-// Verificar se o e-mail já existe
+// create( cadastro: CadastroUsuarioAuthDto): {
+//   const user: User =
 
-// Criptografar senha (com bcrypt)
+// // Verificar se o e-mail já existe
 
-// Salvar no banco (ou lista temporária no seu caso)
+// // Criptografar senha (com bcrypt)
 
-// Retornar usuário sem senha
+// // Salvar no banco (ou lista temporária no seu caso)
 
-
-//============== Login de usuario =============
-// logica 
+// // Retornar usuário sem senha
 
 
+// //============== Login de usuario =============
+// // logica 
 
 
-} 
+
+
+// } 
 
 
 

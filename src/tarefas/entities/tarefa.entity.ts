@@ -4,7 +4,7 @@ import { User } from "../../users/entities/user.entity";
 @Entity('tarefas')
 export class Tarefa {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('increment')
     tarefa_id: number;
 
     @Column()

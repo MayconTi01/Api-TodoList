@@ -24,24 +24,38 @@ import { Repository } from 'typeorm';
     @InjectRepository(Tarefa)
     private tarefaRepository: Repository<Tarefa>;  
   } 
+  
 //   private tarefasLista: Tarefa[] = [] ;
 //   private contadorId: number = 1;
 
 //================ Criar tarefa ===============  
 
-create(NovaTarefa:CriarTarefaDto): Tarefa[] { 
+// 1 Recebe o DTO com título, descrição e user_id - ok 
+// 2	Busca o usuário no banco
+// 3	Monta o objeto da tarefa (repository.create)
+// 4	Conecta a entidade Tarefa ao User (tarefa.user = user)
+// 5	Salva no banco (repository.save)
+// 6	Retorna a tarefa criada
 
-  const tarefa: Tarefa = { 
-    id: this.contadorId++, 
-    titulo: NovaTarefa.titulo, 
-    descricao: NovaTarefa.descricao, 
-    concluida: false, 
-    criadoEm: new Date() 
-  } 
 
-  this.tarefasLista.push(tarefa);
+async create(NovaTarefa:CriarTarefaDto): Promise<Tarefa> {
+  const user = await this.tarefaRepository.findOne({where: {user_id:NovaTarefa.user_id}});
 
-  return this.tarefasLista   
+
+
+//create(NovaTarefa:CriarTarefaDto): Tarefa { 
+
+//   const tarefa: Tarefa = { 
+//     id: this.contadorId++, 
+//     titulo: NovaTarefa.titulo, 
+//     descricao: NovaTarefa.descricao, 
+//     concluida: false, 
+//     criadoEm: new Date() 
+//   } 
+
+//   this.tarefasLista.push(tarefa);
+
+//   return this.tarefasLista   
 }
 
 //=============== Listar Tarefas ============
@@ -50,51 +64,51 @@ create(NovaTarefa:CriarTarefaDto): Tarefa[] {
 // sem alterar nada
 // apenas ler os dados da memória
 
-findAll(): Tarefa[] { 
-  return this.tarefasLista; 
-}
+// findAll(): Tarefa[] { 
+//   return this.tarefasLista; 
+// }
 
-//============= Listar tarefa pro ID  ===========
-//listar tarefas por id
-// Receber o id da tarefa
-findOne(id: Tarefa["id"]): Tarefa | null {
-  const tarefa = this.tarefasLista.find(tarefa => tarefa.id === id);
-  if (!tarefa) return {} as any;
-  return tarefa;
-}
+// //============= Listar tarefa pro ID  ===========
+// //listar tarefas por id
+// // Receber o id da tarefa
+// findOne(id: Tarefa["id"]): Tarefa | null {
+//   const tarefa = this.tarefasLista.find(tarefa => tarefa.id === id);
+//   if (!tarefa) return {} as any;
+//   return tarefa;
+// }
 
 
-//================ Editar Tarefa ============
-update(id:Tarefa["id"], atualizaTarefa: UpdateTarefaDto): Tarefa | undefined { 
-  const tarefa = this.tarefasLista.find(tarefas => tarefas.id === id);
+// //================ Editar Tarefa ============
+// update(id:Tarefa["id"], atualizaTarefa: UpdateTarefaDto): Tarefa | undefined { 
+//   const tarefa = this.tarefasLista.find(tarefas => tarefas.id === id);
 
-  if (!tarefa) return {} as any;
-  if(atualizaTarefa.titulo !== undefined){
-    tarefa!.titulo = atualizaTarefa.titulo;
-  }
+//   if (!tarefa) return {} as any;
+//   if(atualizaTarefa.titulo !== undefined){
+//     tarefa!.titulo = atualizaTarefa.titulo;
+//   }
 
-  if(atualizaTarefa.descricao !== undefined){
-    tarefa!.descricao = atualizaTarefa.descricao;
-  }
+//   if(atualizaTarefa.descricao !== undefined){
+//     tarefa!.descricao = atualizaTarefa.descricao;
+//   }
 
-  return tarefa;
-}
+//   return tarefa;
+// }
 
-// ================ Excluir Tarefa ===========
+// // ================ Excluir Tarefa ===========
 
-//Receber o ID
-remove(id: Tarefa["id"]) {
-  const tarefa = this.tarefasLista;
-  const index = this.tarefasLista.findIndex(tarefa => tarefa.id === id); 
-  if(index !== -1 ){ 
-    const tarefaRemovida = this.tarefasLista.splice(index, 1)[0]
-    return tarefa;
-  //return console.log(`Sua tarefa foi removida:${tarefaRemovida}`); 
-  }else { 
-    return undefined;
-  }
-}   
-} 
+// //Receber o ID
+// remove(id: Tarefa["id"]) {
+//   const tarefa = this.tarefasLista;
+//   const index = this.tarefasLista.findIndex(tarefa => tarefa.id === id); 
+//   if(index !== -1 ){ 
+//     const tarefaRemovida = this.tarefasLista.splice(index, 1)[0]
+//     return tarefa;
+//   //return console.log(`Sua tarefa foi removida:${tarefaRemovida}`); 
+//   }else { 
+//     return undefined;
+//   }
+// }   
+// } 
 // Procurar dentro da lista se a tarefa existe
 
 // Se não existir → retornar undefined ou erro
