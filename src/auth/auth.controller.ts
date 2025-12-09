@@ -2,6 +2,18 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import { LoginAuthDto } from './dto/login-auth.dto';
+
+// POST → envia dados para criar
+
+// GET → consulta dados
+
+// PATCH → atualiza parte dos dados
+
+// PUT → atualiza tudo (quase nunca usamos)
+
+// DELETE → deleta algo
+
 
 @Controller('auth')
 export class AuthController {
@@ -11,10 +23,18 @@ export class AuthController {
 
 //================= Cadastro de Usuario ==================
 
-
-
-
-
+@Post('cadastro')
+  create(@Body() CadastroUserio: CreateAuthDto) { 
+    return this.authService.create(CadastroUserio); 
+  }
+//================= Login de Usuario ==================
+@Post('login') // rota para login: metodo post 
+  login(@Body() loginDto: LoginAuthDto) {
+    return this.authService.login(loginDto);
+  } 
+//================= Esqueci minha senha
+@Patch('esqueci-senha')
+  
 //   @Post()
 //   create(@Body() createAuthDto: CreateAuthDto) {
 //     return this.authService.create(createAuthDto);

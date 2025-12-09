@@ -1,0 +1,10 @@
+Ordem de execução: 
+AUTH
+1- cadastro de usuário ( publico) 
+2- Login ( publico) 
+3- esqueci senha (publica) 
+USER
+4- Obter os dados pessoais(privado) 
+5- editar dados pessoais (privado) (token) 
+Tarefas: 
+6- Crud de tarefas

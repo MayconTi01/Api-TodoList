@@ -31,7 +31,7 @@ async findAll(){   // metodo fildAll - lista todas as tarefas
 // ======================= Listar tarefa por id  ========================
 @Get(':id')
 async findOne(@Param('id')id:string){ 
-  return this.tarefasService.findOne(+id)
+    return this.tarefasService.findOne(+id)
 }
 
 //========================= Editar tarefa ==========================
