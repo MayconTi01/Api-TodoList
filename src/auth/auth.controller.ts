@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { CadastroUsuarioAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
+import {EsqueciMinhaSenhaDto} from './dto/senha-troca.dto';
 
 // POST → envia dados para criar
 
@@ -24,17 +25,18 @@ export class AuthController {
 //================= Cadastro de Usuario ==================
 
 @Post('cadastro')
-  create(@Body() CadastroUserio: CreateAuthDto) { 
-    return this.authService.create(CadastroUserio); 
+  create(@Body() CadastroUserio: CadastroUsuarioAuthDto) { 
+    return this.authService.createUser(CadastroUserio); 
   }
 //================= Login de Usuario ==================
-@Post('login') // rota para login: metodo post 
-  login(@Body() loginDto: LoginAuthDto) {
-    return this.authService.login(loginDto);
-  } 
-//================= Esqueci minha senha
-@Patch('esqueci-senha')
-  
+// @Post('login') // rota para login: metodo post 
+//   login(@Body() loginDto: LoginAuthDto) {
+//     return this.authService.login(loginDto);
+//   } 
+// //================= Esqueci minha senha
+// @Post('esqueci-senha') 
+//   esqueciMinhaSenha(@Body() esqueciMinhaSenhaDto: EsqueciMinhaSenhaDto) {} 
+//     return this.authService.esqueciMinhaSenha(esqueciMinhaSenhaDto);
 //   @Post()
 //   create(@Body() createAuthDto: CreateAuthDto) {
 //     return this.authService.create(createAuthDto);
@@ -60,4 +62,4 @@ export class AuthController {
 //   remove(@Param('id') id: string) {
 //     return this.authService.remove(+id);
 //   }
-// }
+//

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {BadRequestException, Injectable } from '@nestjs/common';
 import { CadastroUsuarioAuthDto } from './dto/create-auth.dto';
 import {LoginAuthDto } from './dto/login-auth.dto'; 
 import { UpdateAuthDto } from './dto/update-auth.dto';
@@ -15,11 +15,67 @@ import {User} from '../users/entities/user.entity';
 
 @Injectable()
   export class AuthService { 
+  constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>; 
+    private readonly userRepository: Repository<User>,
+  ) {}
+
+
+//============= Cadastro de usuario =============
+  async createUser( CadastroUsuario: CadastroUsuarioAuthDto) {
+    const userExiste = await this.userRepository.findOne({
+    where: {
+        user_email: CadastroUsuario.email
+      }
+    });
+
+    if (userExiste) { 
+      throw new BadRequestException('E-mail já cadastrado!');
+    }
+    const user = this.userRepository.create({
+      user_nome: CadastroUsuario.username,
+      user_email: CadastroUsuario.email,
+      user_senha: CadastroUsuario.senha,
+    });
+
+    return await this.userRepository.save(user);  
   } 
-  //============= Cadastro de usuario =============
-//logica 
+  //============== Login de usuario =============
+//1- Verifica se email existe no banco 
+ async Login( LoginUser:LoginAuthDto, CadastroUsuario: CadastroUsuarioAuthDto ) { 
+  const User = 
+  const userExiste = await this.userRepository.find({ 
+    where:{ user_email : LoginAuthDto.email}
+  })
+ }
+//2- verifica se senha bate com a do banco 
+//3- se tudo ok, retorna dados do usuario 
+//4 -se não, retorna erro email nã ocadastrado 
+  
+//usuario entra com dados de cadastro (username, email, senha) 
+} 
+
+// nome não pode ser vazio
+
+// e-mail com formato válido
+
+// senha com comprimento mínimo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //logica 
 // Receber DTO
 
 // create( cadastro: CadastroUsuarioAuthDto): {

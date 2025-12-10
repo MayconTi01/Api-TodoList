@@ -8,3 +8,51 @@ USER
 5- editar dados pessoais (privado) (token) 
 Tarefas: 
 6- Crud de tarefas
+
+
+Receber os dados do cadastro nome e-mail senha
+
+Validar se os campos obrigatórios foram enviados
+
+    nome não pode ser vazio
+
+    e-mail com formato válido
+
+    senha com comprimento mínimo
+
+Verificar se já existe um usuário com o mesmo e-mail
+
+consultar o banco
+
+se existir, retornar erro: “E-mail já está em uso”
+
+
+Gerar hash da senha
+
+nunca salvar senha em texto puro
+
+usar função de hashing seguro (bcrypt, argon2 etc.)
+
+Criar o objeto do usuário
+
+montar os dados que serão salvos
+
+substituir a senha comum pelo hash gerado
+
+Persistir no banco de dados
+
+inserir o novo usuário na tabela/coleção
+
+aguardar o retorno da operação
+
+Remover a senha do retorno
+
+nunca retornar a senha ou hash para o cliente
+
+Retornar a resposta ao cliente
+
+status de sucesso
+
+dados públicos do usuário criado (id, name, email)
+
+mensagem: “Usuário registrado com sucesso”
