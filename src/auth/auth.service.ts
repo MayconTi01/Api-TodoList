@@ -5,6 +5,7 @@ import { UpdateAuthDto } from './dto/update-auth.dto';
 import {Repository} from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm';
 import {User} from '../users/entities/user.entity'; 
+import { hash } from 'bcrypt'; 
 
 // type User ={ 
 //   id: number; 
@@ -35,25 +36,52 @@ import {User} from '../users/entities/user.entity';
     const user = this.userRepository.create({
       user_nome: CadastroUsuario.username,
       user_email: CadastroUsuario.email,
-      user_senha: CadastroUsuario.senha,
+      user_senha: String(hash(CadastroUsuario.senha, 10))  //salvar senha em hash 
     });
-
     return await this.userRepository.save(user);  
   } 
   //============== Login de usuario =============
-//1- Verifica se email existe no banco 
- async Login( LoginUser:LoginAuthDto, CadastroUsuario: CadastroUsuarioAuthDto ) { 
-  const User = 
-  const userExiste = await this.userRepository.find({ 
-    where:{ user_email : LoginAuthDto.email}
-  })
- }
+//1- Verifica se email e senha existe no banco 
+ async Login( LoginUser:LoginAuthDto) {
+  let UserLogin = LoginUser
+
+  const emailExiste = await this.userRepository.findOne({ 
+    where:{ 
+      user_email : UserLogin.email, 
+     
+    }  }) 
+  // const senhaExiste = await this.userRepository.findOne({
+  //    where: {user_senha : UserLogin.senha}})
+    if (!emailExiste) return
+
+    if (emailExiste.user_senha == LoginUser.senha) return
+    return {
+      accessToken: "wkajfbalwkfgla1"
+    }     
+}
+
+//   Recebe email e senha.
+
+// Busca no banco um usuário com esse email.
+
+// Se não existir → “Usuário não encontrado.”
+
+// Senha informada bate com a senha armazenada?
+
+// Se não → “Senha incorreta.”
+
+// Se sim → ok, login aprovado.
+
+      
+      //2- verifica se senha bate com a do banc}
+  
+ 
 //2- verifica se senha bate com a do banco 
 //3- se tudo ok, retorna dados do usuario 
 //4 -se não, retorna erro email nã ocadastrado 
   
 //usuario entra com dados de cadastro (username, email, senha) 
-} 
+
 
 // nome não pode ser vazio
 

@@ -7,7 +7,7 @@ import { Tarefa } from './entities/tarefa.entity';
 import { Repository } from 'typeorm';
 
 //============ Definição do tipo Tarefa =============
-
+ 
 
 
 // type Tarefa = {
