@@ -6,6 +6,7 @@ import {InjectRepository} from '@nestjs/typeorm';
 import {User} from './entities/user.entity';
 
 
+
 //============== Banco de dados Users =============
 @Injectable() 
   export class UsersService {
