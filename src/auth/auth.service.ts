@@ -20,6 +20,7 @@ import { JwtService } from '@nestjs/jwt';
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private jwtService: JwtService
   ) {}
 
 
@@ -35,32 +36,36 @@ import { JwtService } from '@nestjs/jwt';
       throw new BadRequestException('E-mail já cadastrado!');
     }
     const user = this.userRepository.create({
+      id_user:CadastroUsuario.id, 
       user_nome: CadastroUsuario.username,
       user_email: CadastroUsuario.email,
-      user_senha: String(hash(CadastroUsuario.senha, 10))  //salvar senha em hash 
+      user_senha: String(hash(CadastroUsuario.senha, 10)), //salvar senha em hash 
+     
     });
     return await this.userRepository.save(user);  
   } 
   //============== Login de usuario =============
 //1- Verifica se email e senha existe no banco 
- async Login( LoginUser:LoginAuthDto) {
-  let UserLogin = LoginUser
+  async Login( LoginUser:LoginAuthDto) {
+    let UserLogin = LoginUser
 
-  const emailExiste = await this.userRepository.findOne({ 
-    where:{ 
-      user_email : UserLogin.email, 
-     
-    }  }) 
-  // const senhaExiste = await this.userRepository.findOne({
-  //    where: {user_senha : UserLogin.senha}})
-    if (!emailExiste) return
+    const user = await this.userRepository.findOne({ 
+      where:{ 
+        user_email : UserLogin.email, 
+      
+      }  }) 
+    // const senhaExiste = await this.userRepository.findOne({
+    //    where: {user_senha : UserLogin.senha}})
+      if (!user) return
 
-    if (emailExiste.user_senha == LoginUser.senha) return
-    return {
-      accessToken: "wkajfbalwkfgla1"
-    }     
+      if (user.user_senha == LoginUser.senha) return
+
+      const payload = { sub: user?.id_user, username: user?.user_nome };
+      return {
+        access_token: await this.jwtService.signAsync(payload),
+      };   
+  }
 }
-
 //   Recebe email e senha.
 
 // Busca no banco um usuário com esse email.

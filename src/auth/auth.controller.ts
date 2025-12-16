@@ -19,15 +19,21 @@ import {EsqueciMinhaSenhaDto} from './dto/senha-troca.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+  //@HttpCode(HttpStatus.OK)
+  @Post('login') 
+  Login(@Body() loginUser: LoginAuthDto) {
+    return this.authService.Login(loginUser);
+  }
 
 //funcionalidades: Cadastro, Login, atualizar dados do usuario 
 
 //================= Cadastro de Usuario ==================
 
-@Post('cadastro')
+  @Post('cadastro')
   create(@Body() CadastroUserio: CadastroUsuarioAuthDto) { 
     return this.authService.createUser(CadastroUserio); 
   }
+}
 //================= Login de Usuario ==================
 // @Post('login') // rota para login: metodo post 
 //   login(@Body() loginDto: LoginAuthDto) {

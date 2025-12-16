@@ -1,8 +1,8 @@
-import {}
+// import {}
 
-export class CreateUserDto { 
+// export class CreateUserDto { 
     
-    nome: string;
+//     nome: string;
 
-} 
+// } 
 

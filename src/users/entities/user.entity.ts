@@ -17,7 +17,7 @@ export class User {
     user_senha: string;
 
     @CreateDateColumn()
-    user_criadoEm: Date;
+    user_criadoem: Date;
 
     // Relacionamento 1 - N (Um usuário tem várias tarefas)
     @OneToMany(() => Tarefa, (tarefa) => tarefa.user)

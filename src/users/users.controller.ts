@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+// import { CreateUserDto } from './dto/create-user.dto';
 //import { UpdateUserDto } from './dto/update-user.dto';
 
 
@@ -15,20 +15,20 @@ import { CreateUserDto } from './dto/create-user.dto';
     constructor(private readonly usersService: UsersService) {}
 
 //================ Consultar dados pessoais ==================
-@Get('/me')
-  async findAll(){ 
-    return this.usersService.findAll();
-}
-//========================= Atualizar nome ==========================
-@Patch('/atualizar-nome')  
-  async update(@Body() atualiza_senha: CreateUserDto)
-{ 
-  return this.usersService.update(+atualiza_senha., atualiza_senha);
-}
+// @Get('/me')
+//   async findAll(){ 
+//     return this.usersService.findAll();
+// }
+// //========================= Atualizar nome ==========================
+// @Patch('/atualizar-nome')  
+//   async update(@Body() atualiza_senha: CreateUserDto)
+// { 
+//   return this.usersService.update(+atualiza_senha., atualiza_senha);
+// }
   
 
-//========================= Atualizar senha ==========================
-@Patch('/atualizar-senha')  
+// //========================= Atualizar senha ==========================
+// @Patch('/atualizar-senha')  
  
 }
 

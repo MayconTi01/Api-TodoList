@@ -38,8 +38,8 @@ import { Repository } from 'typeorm';
 // 6	Retorna a tarefa criada
 
 
-async create(NovaTarefa:CriarTarefaDto): Promise<Tarefa> {
-  const user = await this.tarefaRepository.findOne({where: {user_id:NovaTarefa.user_id}});
+// async create(NovaTarefa:CriarTarefaDto): Promise<Tarefa> {
+//   const user = await this.tarefaRepository.findOne({where: {user_id:NovaTarefa.user_id}});
 
 
 
@@ -56,7 +56,7 @@ async create(NovaTarefa:CriarTarefaDto): Promise<Tarefa> {
 //   this.tarefasLista.push(tarefa);
 
 //   return this.tarefasLista   
-}
+
 
 //=============== Listar Tarefas ============
 // Listar todas as tarefas 
