@@ -10,6 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         password: '1234', 
         database: "to-do_list_db", 
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+        synchronize: true,
      })
     ]
 })

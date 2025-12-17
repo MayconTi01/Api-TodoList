@@ -1,11 +1,11 @@
-import {BadRequestException, Injectable } from '@nestjs/common';
+import {BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CadastroUsuarioAuthDto } from './dto/create-auth.dto';
 import {LoginAuthDto } from './dto/login-auth.dto'; 
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import {Repository} from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm';
 import {User} from '../users/entities/user.entity'; 
-import { hash } from 'bcrypt'; 
+import { hash, compare } from 'bcrypt'; 
 import { JwtService } from '@nestjs/jwt';
 
 // type User ={ 
@@ -24,44 +24,73 @@ import { JwtService } from '@nestjs/jwt';
   ) {}
 
 
-//============= Cadastro de usuario =============
+//============= Cadastro de usuario =============  O K
   async createUser( CadastroUsuario: CadastroUsuarioAuthDto) {
-    const userExiste = await this.userRepository.findOne({
+    try {
+      const userExiste = await this.userRepository.findOne({
     where: {
         user_email: CadastroUsuario.email
       }
     });
 
-    if (userExiste) { 
-      throw new BadRequestException('E-mail já cadastrado!');
-    }
+    const senhaHash = await hash(CadastroUsuario.senha, 10)
     const user = this.userRepository.create({
-      id_user:CadastroUsuario.id, 
+      //id_user: 1, 
       user_nome: CadastroUsuario.username,
       user_email: CadastroUsuario.email,
-      user_senha: String(hash(CadastroUsuario.senha, 10)), //salvar senha em hash 
+      user_senha:senhaHash, //salvar senha em hashm
+      user_criadoem: new Date(),
+      // tarefas: []
      
     });
-    return await this.userRepository.save(user);  
+    //console.log('usuario', user)
+    const save = await this.userRepository.save(user);
+    console.log('salve', save)
+    return save; 
+    } catch (error) {
+      console.log("erro:",error)
+    }
   } 
   //============== Login de usuario =============
 //1- Verifica se email e senha existe no banco 
-  async Login( LoginUser:LoginAuthDto) {
+
+// Receber email e senha
+
+// Buscar usuário pelo email
+
+// Comparar senha com bcrypt
+ 
+// Se inválido → erro
+                         
+// Se válido → gerar token JWT
+                     
+// Retornar token
+                         
+
+ async Login( LoginUser:LoginAuthDto) {
     let UserLogin = LoginUser
 
     const user = await this.userRepository.findOne({ 
       where:{ 
-        user_email : UserLogin.email, 
+        user_email : UserLogin.email,  //1 
       
       }  }) 
+
+      console.log(LoginUser)
     // const senhaExiste = await this.userRepository.findOne({
     //    where: {user_senha : UserLogin.senha}})
-      if (!user) return
-
-      if (user.user_senha == LoginUser.senha) return
+      if (!user) {  
+        throw new UnauthorizedException('Email ou senha inválidos');
+      } 
+      const senhaValida = await compare(
+        LoginUser.senha,
+        user.user_senha)  
+        
+       if (!senhaValida){ 
+        throw new UnauthorizedException('Email ou senha inválidos'); } 
 
       const payload = { sub: user?.id_user, username: user?.user_nome };
-      return {
+      return { 
         access_token: await this.jwtService.signAsync(payload),
       };   
   }
